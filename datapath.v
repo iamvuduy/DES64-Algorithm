@@ -6,6 +6,7 @@ module datapath (
     input [3:0]  round_cnt,
     input        ld_en,       // Tín hiệu load dữ liệu ban đầu từ FSM
     input        round_en,    // Tín hiệu cập nhật L, R sau mỗi vòng
+	 input 			mode,
     input        sel_final,   // Tín hiệu chọn kết quả cuối (Swap + IP-1)
     
     output [63:0] cipher_text
@@ -29,6 +30,7 @@ module datapath (
         .rst_n(rst_n),
         .key(key),
         .round(round_cnt),
+		  .mode(mode),
         .key_n(round_key)
     );
 

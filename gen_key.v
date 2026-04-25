@@ -3,7 +3,7 @@ module gen_key (
     input rst_n,
     input [63:0] key,
 	input [3:0] round,
-
+	input mode,
     output [47:0] key_n
 );
 
@@ -13,6 +13,7 @@ reg  [27:0] C_reg, D_reg;
 wire [27:0] C_shift, D_shift;
 
 reg [3:0] round_d;
+
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n)
@@ -49,6 +50,7 @@ shift_cd u_shift (
     .C_in(C_reg),
     .D_in(D_reg),
     .round(round_d),
+	 .mode(mode),
     .C_out(C_shift),
     .D_out(D_shift)
 );
