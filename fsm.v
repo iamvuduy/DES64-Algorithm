@@ -1,7 +1,7 @@
 module des_ctrl (
     input clk,
     input rst_n,
-    input cipher_en,
+    input start,
     
     output reg [3:0] round_cnt,
     output reg ld_en,
@@ -28,7 +28,7 @@ module des_ctrl (
     // Logic chuyển trạng thái
     always @(*) begin
         case (state)
-            IDLE:  next_state = cipher_en ? LOAD : IDLE;
+            IDLE:  next_state = start ? LOAD : IDLE;
             LOAD:  next_state = ROUND;
             ROUND: next_state = (round_cnt == 4'd15) ? FINAL : ROUND;
             FINAL: next_state = DONE;
