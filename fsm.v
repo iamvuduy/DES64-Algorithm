@@ -14,10 +14,10 @@ module des_ctrl (
     localparam IDLE  = 3'd0,
                LOAD  = 3'd1,
                ROUND = 3'd2,
-               FINAL = 3'd3,
-               DONE  = 3'd4;
+               FINAL = 3'd3;
+ 
 
-    reg [2:0] state, next_state;
+    reg [1:0] state, next_state;
 
     // Chuyển trạng thái
     always @(posedge clk or negedge rst_n) begin
@@ -31,8 +31,8 @@ module des_ctrl (
             IDLE:  next_state = start ? LOAD : IDLE;
             LOAD:  next_state = ROUND;
             ROUND: next_state = (round_cnt == 4'd15) ? FINAL : ROUND;
-            FINAL: next_state = DONE;
-            DONE:  next_state = IDLE;
+            FINAL: next_state = IDLE;
+   
             default: next_state = IDLE;
         endcase
     end
@@ -67,10 +67,9 @@ module des_ctrl (
 						end
                 FINAL: begin
                     sel_final <= 1'b1;
+						  done <= 1'b1;
                 end
-                DONE: begin
-                    done <= 1'b1;
-                end
+               
             endcase
         end
     end
